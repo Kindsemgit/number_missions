@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Нумерология: Число Миссии</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(25, 25, 40, 0.9);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid #333355;
+        }
+
+        h1 {
+            text-align: center;
+            color: #7c83fd;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 0 2px 10px rgba(124, 131, 253, 0.3);
+        }
+
+        h2 {
+            color: #96baff;
+            margin: 25px 0 15px;
+            border-bottom: 2px solid #333355;
+            padding-bottom: 8px;
+        }
+
+        h3 {
+            color: #7c83fd;
+            margin: 20px 0 10px;
+        }
+
+        .intro {
+            background: rgba(124, 131, 253, 0.1);
+            border-left: 4px solid #7c83fd;
+            padding: 20px;
+            border-radius: 0 10px 10px 0;
+            margin: 20px 0;
+        }
+
+        .calculation-form {
+            background: rgba(40, 40, 70, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            text-align: center;
+            border: 1px solid #444477;
+        }
+
+        .date-input {
+            padding: 15px;
+            width: 250px;
+            font-size: 18px;
+            border: 2px solid #7c83fd;
+            border-radius: 10px;
+            background: rgba(20, 20, 35, 0.8);
+            color: #fff;
+            margin: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .date-input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(124, 131, 253, 0.4);
+        }
+
+        .date-input::placeholder {
+            color: #888;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .calculate-btn {
+            background: linear-gradient(to right, #7c83fd, #96baff);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 180px;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(124, 131, 253, 0.4);
+        }
+
+        .clear-btn {
+            background: linear-gradient(to right, #ff6b6b, #ff8e8e);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 180px;
+        }
+
+        .clear-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .result-container {
+            background: rgba(40, 40, 70, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 1px solid #444477;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-number {
+            font-size: 4em;
+            font-weight: bold;
+            color: #ffd166;
+            text-align: center;
+            margin: 20px 0;
+            text-shadow: 0 0 20px rgba(255, 209, 102, 0.5);
+        }
+
+        .mission-description {
+            background: rgba(30, 30, 60, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #ffd166;
+        }
+
+        .mission-title {
+            color: #ffd166;
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .mission-keywords {
+            color: #96baff;
+            font-style: italic;
+            margin: 10px 0;
+        }
+
+        .master-number {
+            color: #ff9e00;
+            font-weight: bold;
+            background: rgba(255, 158, 0, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ff9e00;
+        }
+
+        .examples {
+            background: rgba(50, 50, 80, 0.6);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #ff6b6b;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .date-examples {
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #aaa;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .example-btn {
+            background: rgba(100, 100, 150, 0.3);
+            color: #ccc;
+            border: 1px solid #555;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85em;
+            transition: all 0.2s ease;
+        }
+
+        .example-btn:hover {
+            background: rgba(124, 131, 253, 0.2);
+            color: #fff;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #888;
+            font-size: 0.9em;
+            border-top: 1px solid #333355;
+            padding-top: 20px;
+        }
+
+        .footer-link{
+            color: #96baff;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .date-input {
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            .buttons-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .calculate-btn,
+            .clear-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Нумерология: Число Миссии</h1>
+
+        <div class="intro">
+            <p>В нумерологии Число Миссии, также известное как Миссия, является одним из важнейших показателей,
+                раскрывающих суть личности человека, его врожденные таланты, сильные и слабые стороны, а также основную
+                задачу, которую ему предстоит реализовать в течение жизни. Это не жесткая программа, а скорее путеводная
+                звезда, указывающая на наиболее благоприятный вектор развития для максимального раскрытия потенциала и
+                достижения гармонии.</p>
+            <p>Это число рассчитывается на основе полной даты рождения и символизирует путь, который человеку
+                предначертано пройти, уроки, которые предстоит усвоить, и вершину, которую он может покорить, если будет
+                следовать своему предназначению.</p>
+        </div>
+
+        <h2>Расчет Числа Миссии</h2>
+        <p>Расчет Миссии — это простой арифметический процесс, который заключается в последовательном сложении всех цифр
+            полной даты рождения (день, месяц, год) до тех пор, пока не получится однозначное число от 1 до 9 или
+            мастер-число (11, 22, 33, 44).</p>
+
+        <div class="examples">
+            <p><strong>Пример:</strong> Дата рождения: 20.04.1983 → 2+0+0+4+1+9+8+3 = 27 → 2+7 = 9</p>
+            <p><strong>Пример мастер-числа:</strong> Дата рождения: 29.11.1973 → 2+9+1+1+1+9+7+3 = 33 (мастер-число, не
+                сворачивается)</p>
+        </div>
+
+        <div class="calculation-form">
+            <h3>Введите вашу дату рождения</h3>
+            <input type="text" id="birthdate" class="date-input" placeholder="ДД.ММ.ГГГГ" maxlength="10">
+
+            <div class="date-examples">
+                <span>Примеры дат:</span>
+                <span class="example-btn" data-date="20.04.1983">20.04.1983</span>
+                <span class="example-btn" data-date="01.01.1990">01.01.1990</span>
+                <span class="example-btn" data-date="29.11.1973">29.11.1973</span>
+                <span class="example-btn" data-date="30.06.1980">30.06.1980</span>
+            </div>
+
+            <div class="buttons-container">
+                <button id="calculateBtn" class="calculate-btn">Рассчитать Число Миссии</button>
+                <button id="clearBtn" class="clear-btn">Удалить дату</button>
+            </div>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+            Неверный формат даты. Используйте формат ДД.ММ.ГГГГ (например, 20.04.1983)
+        </div>
+
+        <div class="result-container" id="resultContainer">
+            <h2>Ваш результат</h2>
+            <div class="result-number" id="resultNumber"></div>
+            <div id="missionDescription"></div>
+        </div>
+
+        <footer>
+            <a class="footer-link" href="mailto:kindsem@mail.ru">
+                По всем интересующим вас вопросам относительно этого сайта прошу обращаться по электронной почте.
+                
+                kindsem@mail.ru
+            </a>
+            <p>Нумерологическое приложение "Число Миссии" &copy; 2025</p>
+            <p>Информация предоставлена в ознакомительных целях.</p>
+
+        </footer>
+    </div>
+
+    <script>
+        // Функция для расчета числа миссии
+        function calculateDestinyNumber(dateStr) {
+            // Убираем точки и преобразуем все символы в цифры
+            const digits = [];
+            for (let i = 0; i < dateStr.length; i++) {
+                const char = dateStr[i];
+                if (char >= '0' && char <= '9') {
+                    digits.push(parseInt(char));
+                }
+            }
+
+            // Считаем сумму всех цифр
+            let total = digits.reduce((sum, digit) => sum + digit, 0);
+
+            // Продолжаем обрабатывать, пока число не станет однозначным
+            while (total >= 10) {
+                // Проверяем, является ли число мастер-числом (11, 22, 33, 44, ...)
+                if (total % 11 === 0 && total >= 10 && total <= 99) {
+                    return total;
+                }
+
+                // Если не мастер-число, складываем цифры
+                const totalStr = total.toString();
+                let newTotal = 0;
+                for (let i = 0; i < totalStr.length; i++) {
+                    newTotal += parseInt(totalStr[i]);
+                }
+                total = newTotal;
+            }
+
+            return total;
+        }
+
+        // Функция для проверки формата даты
+        function isValidDateFormat(dateStr) {
+            if (dateStr.length !== 10) return false;
+            if (dateStr[2] !== '.' || dateStr[5] !== '.') return false;
+
+            const day = parseInt(dateStr.substring(0, 2));
+            const month = parseInt(dateStr.substring(3, 5));
+            const year = parseInt(dateStr.substring(6, 10));
+
+            // Проверяем корректность дня, месяца и года
+            if (isNaN(day) || isNaN(month) || isNaN(year)) return false;
+            if (day < 1 || day > 31) return false;
+            if (month < 1 || month > 12) return false;
+            if (year < 1900 || year > 2100) return false;
+
+            return true;
+        }
+
+        // Функция для отображения описания миссии
+        function displayMissionDescription(result) {
+            const descriptionContainer = document.getElementById('missionDescription');
+            let descriptionHTML = '';
+
+            // Массив с описаниями миссий
+            const missionDescriptions = {
+                1: {
+                    title: "Миссия 1: Лидер, Новатор, Индивидуалист",
+                    keywords: "Ключевые характеристики: Независимость, амбициозность, решительность, новаторство, смелость, уверенность в себе.",
+                    strengths: "Лидерские качества, способность генерировать новые идеи, сила воли, умение брать на себя ответственность.",
+                    weaknesses: " Склонность к эгоизму и доминированию, нетерпимость к чужому мнению, импульсивность, агрессивность.",
+                    task: "Развивать свою индивидуальность, научиться вести за собой людей, не подавляя их волю, реализовывать новаторские проекты. Важно найти баланс между личными амбициями и потребностями окружающих.",
+                    profession: "Предприниматель, руководитель проекта, директор, стартапер, политик, спортсмен, любая сфера, где требуется самостоятельность и право принимать решения."
+                },
+                2: {
+                    title: "Миссия 2: Дипломат, Миротворец, Партнер",
+                    keywords: "Ключевые характеристики: Сотрудничество, тактичность, чувствительность, эмпатия, гармония, терпение.",
+                    strengths: "Умение договариваться и сглаживать конфликты, интуиция, внимание к деталям, преданность.",
+                    weaknesses: " Нерешительность, чрезмерная зависимость от мнения окружающих, ранимость, склонность уходить на второй план.",
+                    task: "Научиться сотрудничать и находить компромиссы, развивать интуицию, нести мир и гармонию в коллективы. Важно научиться отстаивать свои границы и не растворяться в партнерах.",
+                    profession: "Дипломат, психолог, консультант, социальный работник, ассистент, медиатор, юрист, музыкант."
+                },
+                3: {
+                    title: "Миссия 3: Вдохновитель, Артист, Оптимист",
+                    keywords: "Ключевые характеристики: Креативность, самовыражение, общительность, оптимизм, энтузиазм, артистизм.",
+                    strengths: "Творческие способности, воображение, ораторское искусство, умение вдохновлять и радоваться жизни.",
+                    weaknesses: " Поверхностность, неорганизованность, болтливость, склонность разбрасываться талантами и не доводить дела до конца.",
+                    task: "Реализовать свой творческий потенциал, нести в мир радость и красоту через самовыражение. Научиться концентрироваться на цели и направлять свою энергию в конструктивное русло.",
+                    profession: "Писатель, актер, художник, дизайнер, музыкант, журналист, ведущий мероприятий, специалист по рекламе и PR."
+                },
+                4: {
+                    title: "Миссия 4: Организатор, Строитель, Практик",
+                    keywords: "Ключевые характеристики: Стабильность, порядок, трудолюбие, практичность, надежность, дисциплина.",
+                    strengths: "Системный подход, терпение, честность, невероятная работоспособность, умение создавать прочный фундамент.",
+                    weaknesses: " Негибкость, упрямство, склонность к излишнему консерватизму, ограниченность мышления, трудоголизм.",
+                    task: "Создавать порядок и структуру, упорным трудом строить что-то долговечное и полезное для общества. Важно развивать гибкость и не бояться перемен.",
+                    profession: "Менеджер, администратор, инженер, архитектор, строитель, бухгалтер, аналитик, военный."
+                },
+                5: {
+                    title: "Миссия 5: Путешественник, Авантюрист, Коммуникатор",
+                    keywords: "Ключевые характеристики: Свобода, перемены, любознательность, многогранность, коммуникабельность, любовь к приключениям.",
+                    strengths: "Быстрая адаптация к новым условиям, находчивость, умение общаться с самыми разными людьми, многозадачность.",
+                    weaknesses: " Непостоянство, безответственность, нетерпеливость, склонность к излишествам и риску.",
+                    task: "Познавать мир во всем его многообразии, не бояться перемен и использовать свою свободу конструктивно. Научиться дисциплине и умению делать выбор, не распыляясь на все подряд.",
+                    profession: "Журналист, турагент, гид-переводчик, продавец, рекламный агент, исследователь, фрилансер, работа, связанная с командировками."
+                },
+                6: {
+                    title: "Миссия 6: Наставник, Гуманист, Защитник",
+                    keywords: "Ключевые характеристики: Ответственность, забота, гармония, любовь, служение, домашний уют.",
+                    strengths: "Умение любить и заботиться, чувство прекрасного, надежность, способность создавать гармонию и уют.",
+                    weaknesses: " Чрезмерный контроль, ревность, жертвенность, склонность вмешиваться в чужие дела, идеализм.",
+                    task: "Научиться гармонично служить другим, не забывая о себе. Создавать красоту, заботиться о близких и нести ответственность за свой выбор.",
+                    profession: "Учитель, врач, воспитатель, социальный работник, дизайнер интерьеров, юрист, правозащитник, консультант."
+                },
+                7: {
+                    title: "Миссия 7: Мудрец, Исследователь, Интроверт",
+                    keywords: "Ключевые характеристики: Анализ, мудрость, интуиция, уединение, духовность, стремление к знаниям.",
+                    strengths: "Глубокий аналитический ум, проницательность, способность к научным исследованиям, развитая интуиция.",
+                    weaknesses: " Замкнутость, отстраненность, склонность к цинизму и недоверию, перфекционизм.",
+                    task: "Искать истину, накапливать знания и делиться мудростью с миром. Развивать доверие к людям и не отгораживаться от них стеной интеллектуального превосходства.",
+                    profession: "Ученый, исследователь, аналитик, программист, философ, писатель, ювелир, часовщик, эколог."
+                },
+                8: {
+                    title: "Миссия 8: Руководитель, Бизнесмен, Властелин",
+                    keywords: "Ключевые характеристики: Власть, материальный успех, амбиции, контроль, сила, справедливость.",
+                    strengths: "Организаторские способности, стратегическое мышление, решительность, умение достигать поставленных целей, финансовое чутье.",
+                    weaknesses: " Авторитарность, трудоголизм, жажда власти и денег, нетерпимость, отсутствие сострадания.",
+                    task: "Научиться управлять материальной энергией и властью во благо, а не только для личной выгоды. Развивать щедрость, справедливость и находить баланс между материальным и духовным.",
+                    profession: "Крупный бизнесмен, финансовый директор, топ-менеджер, политик, банкир, судья, продюсер."
+                },
+                9: {
+                    title: "Миссия 9: Гуманист, Философ, Учитель",
+                    keywords: "Ключевые характеристики: Мудрость, сострадание, альтруизм, универсальность, завершение.",
+                    strengths: "Безусловная любовь, терпимость, широта взглядов, творческие таланты, способность вдохновлять своим примером.",
+                    weaknesses: " Идеализм, непрактичность, эмоциональная нестабильность, желание отдать последнее, забывая о себе.",
+                    task: "Служить людям, проявляя сострадание и мудрость. Научиться отпускать прошлое и вдохновлять других на трансформацию. Важно найти способ служения, который не ведет к саморазрушению.",
+                    profession: "Благотворитель, общественный деятель, целитель, духовный учитель, художник, писатель, эколог, правозащитник."
+                },
+                11: {
+                    title: "Миссия 11: Просветленный, Проводник, Интуитивный (удвоенная энергия 2)",
+                    keywords: "Ключевые характеристики: Духовное просветление, интуиция, вдохновение, идеализм, чувствительность.",
+                    strengths: "Миссия. Вдохновлять и просвещать людей, быть проводником высших знаний. Это «духовный посланник». Миссия 11 несет в себе вибрации числа 2 (интуиция, партнерство), но на более высоком, духовном уровне. Их задача — использовать свою сверхчувствительность для помощи другим, а не для личных переживаний.",
+                    weaknesses: " Вызовы. Огромное нервное напряжение, повышенная тревожность, трудности в поиске своего места в материальном мире. Необходимо научиться заземляться и жить «здесь и сейчас",
+                    task: "Быть проводником духовных истин, вдохновлять человечество на высшие идеалы. Научиться заземлять свои идеи и превращать их в практические проекты.",
+                    profession: "Духовный учитель, художник, музыкант, писатель-мистик, психолог, целитель, изобретатель."
+                },
+                22: {
+                    title: "Миссия 22: Мастер-Строитель (удвоенная энергия 4)",
+                    keywords: "Ключевые характеристики: Масштабное видение, практическая реализация, глобальные проекты, преобразование мира.",
+                    strengths: "Миссия. Превращать мечты в реальность. Это самое мощное число в нумерологии, сочетающее идеализм и вдохновение с практичностью и методичностью. Задача — создавать масштабные проекты, которые приносят пользу человечеству.",
+                    weaknesses: " Вызовы. Огромная внутренняя сила может быть как созидательной, так и разрушительной. Есть риск уйти в материализм или, наоборот, в пустые мечтания. Требуется огромная самодисциплина, чтобы реализовать свой потенциал",
+                    task: "Строить что-то значимое и долговечное для человечества, преобразовывать мир своими проектами. Научиться делегировать задачи и заботиться о своем здоровье.",
+                    profession: "Архитектор крупных проектов, инженер-конструктор, политик мирового уровня, организатор благотворительных фондов, строитель инфраструктуры."
+                },
+                33: {
+                    title: "Миссия 33: Мастер-Учитель, Исцеляющий Служитель (удвоенная энергия 6)",
+                    keywords: "Ключевые характеристики: Всеобъемлющая любовь, служение человечеству, жертвенность, духовное руководство.",
+                    strengths: "Миссия. Безусловное служение человечеству через любовь, сострадание и исцеление. Это вибрация вселенской любви и жертвенности. Задача — быть источником света и исцеления для мира, наставником с большим сердцем.",
+                    weaknesses: " Вызовы. Это самое сложное для реализации число. Его носители часто сталкиваются с тяжелыми испытаниями, которые должны научить их состраданию. Главная опасность — впасть в роль «мученика», полностью забыв о своих потребностях.",
+                    task: "Служить человечеству на самом высоком уровне, быть примером безусловной любви и мудрости. Научиться устанавливать здоровые границы и заботиться о себе.",
+                    profession: "Духовный лидер, филантроп, целитель, психотерапевт, общественный деятель, художник, создающий произведения для поднятия сознания."
+                }
+            };
+
+            // Проверяем, является ли число мастер-числом
+            const masterNumbers = [11, 22, 33, 44, 55, 66, 77, 88, 99];
+            const isMasterNumber = masterNumbers.includes(result);
+
+            // Добавляем информацию о мастер-числе, если это так
+            if (isMasterNumber && !missionDescriptions[result]) {
+                descriptionHTML = `
+                    <div class="mission-description">
+                        <div class="mission-title">Мастер-число ${result}</div>
+                        <p class="master-number">Обладатели Мастер-чисел наделены огромным потенциалом и призваны решать задачи более глобального масштаба. Их жизненный путь часто сложнее, так как он сопряжен с большей ответственностью и внутренним напряжением.</p>
+                        <p><strong>Ключевая задача:</strong> Использовать свой повышенный потенциал для служения человечеству и выполнения особой миссии.</p>
+                    </div>
+                `;
+            } else {
+                // Используем существующее описание
+                const mission = missionDescriptions[result] || missionDescriptions[1];
+
+                descriptionHTML = `
+                    <div class="mission-description">
+                        <div class="mission-title">${mission.title}</div>
+                        <p class="mission-keywords">${mission.keywords}</p>
+                        <p><strong>Сильные стороны:</strong> ${mission.strengths}</p>
+                        <p><strong>Слабые стороны: </strong> ${mission.weaknesses}</p>
+                        <p><strong>Жизненная задача: </strong>${mission.task}</p>
+                        <p><strong>Профессиональная реализация: </strong>${mission.profession}</p>
+                        ${isMasterNumber ? '<p class="master-number">Это Мастер-число — вы обладаете повышенным потенциалом и особой миссией!</p>' : ''}
+                    </div>
+                `;
+            }
+
+            descriptionContainer.innerHTML = descriptionHTML;
+        }
+
+        // Функция для очистки даты и результатов
+        function clearDateAndResults() {
+            const birthdateInput = document.getElementById('birthdate');
+            const resultContainer = document.getElementById('resultContainer');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Очищаем поле ввода
+            birthdateInput.value = '';
+
+            // Скрываем результаты и ошибки
+            resultContainer.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            // Устанавливаем фокус на поле ввода
+            birthdateInput.focus();
+        }
+
+        // Функция для установки примера даты
+        function setExampleDate(dateStr) {
+            document.getElementById('birthdate').value = dateStr;
+        }
+
+        // Обработчик события для кнопки расчета
+        document.getElementById('calculateBtn').addEventListener('click', function () {
+            const birthdate = document.getElementById('birthdate').value;
+            const errorMessage = document.getElementById('errorMessage');
+            const resultContainer = document.getElementById('resultContainer');
+            const resultNumber = document.getElementById('resultNumber');
+
+            // Скрываем предыдущие результаты и ошибки
+            errorMessage.style.display = 'none';
+
+            // Проверяем правильность формата
+            if (!isValidDateFormat(birthdate)) {
+                errorMessage.style.display = 'block';
+                resultContainer.style.display = 'none';
+                return;
+            }
+
+            // Рассчитываем число миссии
+            const result = calculateDestinyNumber(birthdate);
+
+            // Отображаем результат
+            resultNumber.textContent = result;
+            displayMissionDescription(result);
+            resultContainer.style.display = 'block';
+
+            // Прокручиваем страницу к результатам
+            resultContainer.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Обработчик события для кнопки "Удалить дату"
+        document.getElementById('clearBtn').addEventListener('click', function () {
+            clearDateAndResults();
+        });
+
+        // Автоматическое добавление точек в поле ввода даты
+        document.getElementById('birthdate').addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+
+            if (value.length >= 2) {
+                value = value.substring(0, 2) + '.' + value.substring(2);
+            }
+            if (value.length >= 5) {
+                value = value.substring(0, 5) + '.' + value.substring(5);
+            }
+            if (value.length > 10) {
+                value = value.substring(0, 10);
+            }
+
+            e.target.value = value;
+        });
+
+        // Обработчик события для клавиши Enter
+        document.getElementById('birthdate').addEventListener('keyup', function (e) {
+            if (e.key === 'Enter') {
+                document.getElementById('calculateBtn').click();
+            }
+
+            // Очистка по Escape
+            if (e.key === 'Escape') {
+                clearDateAndResults();
+            }
+        });
+
+        // Добавляем обработчики для кнопок с примерами дат
+        document.querySelectorAll('.example-btn').forEach(button => {
+            button.addEventListener('click', function () {
+                const date = this.getAttribute('data-date');
+                setExampleDate(date);
+            });
+        });
+
+        // Устанавливаем пример даты по умолчанию в placeholder
+        document.getElementById('birthdate').placeholder = '20.04.1983';
+    </script>
+</body>
+
+</html>
